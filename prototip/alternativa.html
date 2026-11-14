@@ -1,0 +1,2498 @@
+<!doctype html>
+<html lang="sl">
+  <head>
+    <meta charset="utf-8" />
+    <title>StudyBuddy — Alternativni prototip</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        --out: #dcd9f0;
+        --bg: #f4f3fa;
+        --card: #fff;
+        --ink: #1b1840;
+        --mut: #6b6890;
+        --pri: #4b3fc4;
+        --pri2: #2a2470;
+        --teal: #1e9c8f;
+        --cor: #ff7a66;
+        --yel: #f2b134;
+        --line: #e4e2f2;
+        --soft: #eceafb;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --out: #0b0a1e;
+          --bg: #14122f;
+          --card: #1e1b45;
+          --ink: #eeedfb;
+          --mut: #a9a6d0;
+          --pri: #6f62f0;
+          --teal: #35c4b5;
+          --line: #2e2a5e;
+          --soft: #2a2660;
+        }
+      }
+      :root[data-theme="dark"] {
+        --out: #0b0a1e;
+        --bg: #14122f;
+        --card: #1e1b45;
+        --ink: #eeedfb;
+        --mut: #a9a6d0;
+        --pri: #6f62f0;
+        --teal: #35c4b5;
+        --line: #2e2a5e;
+        --soft: #2a2660;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        font:
+          14px/1.45 Manrope,
+          system-ui,
+          sans-serif;
+        background: var(--out);
+        color: var(--ink);
+        display: flex;
+        justify-content: center;
+      }
+      #ph {
+        width: 100%;
+        max-width: 430px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        background: var(--bg);
+        position: relative;
+        overflow: hidden;
+      }
+      @media (min-width: 500px) {
+        #ph {
+          height: min(100%, 860px);
+          margin: auto;
+          border-radius: 28px;
+          box-shadow: 0 20px 60px rgba(20, 16, 70, 0.3);
+        }
+      }
+      #scr {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0 16px 20px;
+      }
+      #nav {
+        display: flex;
+        background: var(--card);
+        border-top: 1px solid var(--line);
+      }
+      #nav button {
+        flex: 1;
+        border: 0;
+        background: none;
+        color: var(--mut);
+        padding: 9px 0 7px;
+        font:
+          600 11px Manrope,
+          sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        cursor: pointer;
+      }
+      #nav button.on {
+        color: var(--pri);
+      }
+      .i {
+        width: 22px;
+        height: 22px;
+      }
+      button {
+        font-family: inherit;
+        color: inherit;
+      }
+      .hd {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 18px 0 12px;
+      }
+      .hd h1 {
+        flex: 1;
+        font-size: 22px;
+        font-weight: 800;
+      }
+      .ic {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: var(--card);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        position: relative;
+      }
+      .dot {
+        position: absolute;
+        top: 7px;
+        right: 8px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--cor);
+      }
+      .c {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 14px;
+        margin-bottom: 10px;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .mut {
+        color: var(--mut);
+      }
+      small,
+      .sm {
+        font-size: 12px;
+      }
+      .mt {
+        margin-top: 6px;
+      }
+      .fx {
+        flex: 1;
+      }
+      .b {
+        background: var(--pri);
+        color: #fff;
+        border: 0;
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-weight: 700;
+        cursor: pointer;
+        width: 100%;
+        font-size: 14px;
+        margin-top: 6px;
+      }
+      .b2 {
+        background: transparent;
+        color: var(--ink);
+        border: 1px solid var(--line);
+      }
+      .bs {
+        width: auto;
+        padding: 7px 12px;
+        margin: 0;
+        font-size: 12px;
+      }
+      .in {
+        width: 100%;
+        padding: 11px 12px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--card);
+        color: var(--ink);
+        font: inherit;
+        margin-top: 4px;
+      }
+      label {
+        display: block;
+        font-weight: 600;
+        font-size: 12px;
+        color: var(--mut);
+        margin-top: 10px;
+      }
+      .hero {
+        background: linear-gradient(150deg, var(--pri2), var(--pri));
+        color: #fff;
+        margin: 0 -16px;
+        padding: calc(20px) 16px 22px;
+        border-radius: 0 0 26px 26px;
+      }
+      .hero .ic {
+        background: rgba(255, 255, 255, 0.14);
+        border: 0;
+        color: #fff;
+      }
+      .hero h1 {
+        font-size: 26px;
+        font-weight: 800;
+      }
+      .av {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: inline-grid;
+        place-items: center;
+        color: #fff;
+        font-weight: 800;
+        font-size: 12px;
+        flex: none;
+        border: 2px solid var(--card);
+      }
+      .avs .av {
+        margin-left: -8px;
+      }
+      .avs .av:first-child {
+        margin-left: 0;
+      }
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 3px 9px;
+        border-radius: 99px;
+        background: var(--soft);
+      }
+      .tag i {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+      .chips {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 2px 0 10px;
+      }
+      .chip {
+        flex: none;
+        border: 1px solid var(--line);
+        background: var(--card);
+        border-radius: 99px;
+        padding: 6px 13px;
+        font-weight: 600;
+        font-size: 12px;
+        cursor: pointer;
+      }
+      .chip.on {
+        background: var(--pri);
+        color: #fff;
+        border-color: var(--pri);
+      }
+      .sc {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin: 16px 0;
+      }
+      .sc button {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 12px 4px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        font-weight: 700;
+        font-size: 11px;
+        cursor: pointer;
+      }
+      .sc .i {
+        color: var(--pri);
+      }
+      h2 {
+        font-size: 15px;
+        font-weight: 800;
+        margin: 16px 0 8px;
+      }
+      .hs {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        margin: 0 -16px;
+        padding: 0 16px 4px;
+      }
+      .hs .c {
+        flex: none;
+        width: 200px;
+        margin: 0;
+        cursor: pointer;
+      }
+      .ev {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .dt {
+        flex: none;
+        width: 46px;
+        text-align: center;
+        background: var(--soft);
+        border-radius: 12px;
+        padding: 6px 0;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .dt b {
+        display: block;
+        font-size: 18px;
+        line-height: 1.1;
+      }
+      .pv {
+        border-left: 3px solid var(--teal);
+      }
+      .gv {
+        border-left: 3px solid var(--pri);
+      }
+      .tabs {
+        display: flex;
+        gap: 4px;
+        overflow-x: auto;
+        border-bottom: 1px solid var(--line);
+        margin: 0 -16px 12px;
+        padding: 0 16px;
+      }
+      .tabs button {
+        flex: none;
+        border: 0;
+        background: none;
+        padding: 10px 8px;
+        font-weight: 700;
+        color: var(--mut);
+        border-bottom: 3px solid transparent;
+        cursor: pointer;
+      }
+      .tabs .on {
+        color: var(--pri);
+        border-color: var(--pri);
+      }
+      .cal {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 4px;
+        text-align: center;
+      }
+      .cal span {
+        font-size: 11px;
+        color: var(--mut);
+        font-weight: 700;
+      }
+      .cal button {
+        aspect-ratio: 1;
+        border: 0;
+        border-radius: 12px;
+        background: none;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+      }
+      .cal .tdy {
+        border: 1.5px solid var(--pri);
+      }
+      .cal .on {
+        background: var(--pri);
+        color: #fff;
+      }
+      .cal em {
+        display: flex;
+        gap: 3px;
+        height: 5px;
+      }
+      .cal em i {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+      }
+      .bar {
+        height: 8px;
+        background: var(--soft);
+        border-radius: 9px;
+        overflow: hidden;
+      }
+      .bar i {
+        display: block;
+        height: 100%;
+        background: var(--teal);
+      }
+      .bub {
+        max-width: 80%;
+        padding: 9px 12px;
+        border-radius: 16px 16px 16px 4px;
+        background: var(--card);
+        border: 1px solid var(--line);
+      }
+      .me {
+        margin-left: auto;
+        background: var(--pri);
+        color: #fff;
+        border-radius: 16px 16px 4px 16px;
+        border: 0;
+      }
+      .cin {
+        position: sticky;
+        bottom: -20px;
+        display: flex;
+        gap: 8px;
+        background: var(--bg);
+        padding: 10px 0;
+      }
+      .chk {
+        width: 24px;
+        height: 24px;
+        border-radius: 8px;
+        border: 2px solid var(--line);
+        display: grid;
+        place-items: center;
+        flex: none;
+        cursor: pointer;
+        background: none;
+        color: #fff;
+      }
+      .chk.on {
+        background: var(--teal);
+        border-color: var(--teal);
+      }
+      .emp {
+        text-align: center;
+        padding: 26px 10px;
+        color: var(--mut);
+      }
+      .emp b {
+        display: block;
+        color: var(--ink);
+        margin-bottom: 2px;
+      }
+      .ov {
+        position: absolute;
+        inset: 0;
+        background: rgba(15, 12, 50, 0.5);
+        display: flex;
+        align-items: flex-end;
+        z-index: 5;
+      }
+      .sh {
+        background: var(--bg);
+        width: 100%;
+        max-height: 88%;
+        overflow-y: auto;
+        border-radius: 24px 24px 0 0;
+        padding: 18px 16px 22px;
+      }
+      #toast {
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        bottom: 84px;
+        background: var(--pri2);
+        color: #fff;
+        padding: 12px 14px;
+        border-radius: 14px;
+        font-weight: 600;
+        z-index: 9;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s;
+      }
+      #toast.on {
+        opacity: 1;
+      }
+      .ring {
+        display: block;
+        margin: 10px auto;
+      }
+      .tg {
+        width: 44px;
+        height: 26px;
+        border-radius: 99px;
+        background: var(--line);
+        border: 0;
+        position: relative;
+        cursor: pointer;
+      }
+      .tg:after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #fff;
+        transition: left 0.2s;
+      }
+      .tg.on {
+        background: var(--teal);
+      }
+      .tg.on:after {
+        left: 21px;
+      }
+      .seg {
+        display: flex;
+        background: var(--soft);
+        border-radius: 12px;
+        padding: 3px;
+      }
+      .seg button {
+        flex: 1;
+        border: 0;
+        background: none;
+        padding: 8px;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .seg .on {
+        background: var(--pri);
+        color: #fff;
+      }
+      .login {
+        padding-top: 48px;
+      }
+      .logo {
+        width: 56px;
+        height: 56px;
+        border-radius: 18px;
+        background: linear-gradient(140deg, var(--pri), var(--teal));
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font-weight: 800;
+        font-size: 26px;
+      }
+    </style>
+    <style>
+      :root {
+        --out: #e7e6df;
+        --bg: #f7f7f2;
+        --card: #fff;
+        --ink: #202b2a;
+        --mut: #71807b;
+        --pri: #19745f;
+        --pri2: #104b42;
+        --teal: #d5a83c;
+        --cor: #cf6d50;
+        --yel: #e9c56a;
+        --line: #e2e5dc;
+        --soft: #edf3ee;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --out: #101a18;
+          --bg: #172320;
+          --card: #202e2a;
+          --ink: #eff3ed;
+          --mut: #a6b4ac;
+          --pri: #62b89c;
+          --pri2: #275b4d;
+          --teal: #e0bf65;
+          --line: #34453f;
+          --soft: #293a34;
+        }
+      }
+      :root[data-theme="dark"] {
+        --out: #101a18;
+        --bg: #172320;
+        --card: #202e2a;
+        --ink: #eff3ed;
+        --mut: #a6b4ac;
+        --pri: #62b89c;
+        --pri2: #275b4d;
+        --teal: #e0bf65;
+        --line: #34453f;
+        --soft: #293a34;
+      }
+      body {
+        font-family: "Aptos", "Segoe UI", system-ui, sans-serif;
+        background: var(--out);
+      }
+      #ph {
+        background: var(--bg);
+      }
+      @media (min-width: 500px) {
+        #ph {
+          border-radius: 20px;
+          box-shadow: 0 18px 55px rgba(25, 45, 38, 0.18);
+        }
+      }
+      #scr {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      #nav {
+        padding: 5px 8px calc(5px + env(safe-area-inset-bottom, 0px));
+        gap: 3px;
+      }
+      #nav button {
+        border-radius: 12px;
+        padding: 8px 0 6px;
+        transition:
+          background 0.18s,
+          color 0.18s;
+      }
+      #nav button.on {
+        background: var(--soft);
+      }
+      .hd {
+        padding-top: 20px;
+      }
+      .hd h1,
+      .hero h1 {
+        letter-spacing: -0.035em;
+      }
+      .ic {
+        border-radius: 50%;
+        border-color: transparent;
+        background: var(--soft);
+      }
+      .c {
+        border-radius: 12px;
+        border-color: var(--line);
+        box-shadow: 0 2px 8px rgba(27, 51, 41, 0.035);
+      }
+      .hero {
+        background: linear-gradient(135deg, #124d43, #26755f);
+        border-radius: 0 0 20px 20px;
+        padding-top: 24px;
+      }
+      .hero .ic {
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.15);
+      }
+      .b {
+        border-radius: 10px;
+        background: var(--pri);
+      }
+      .b2 {
+        background: transparent;
+      }
+      .b2:hover,
+      .ic:hover,
+      .chip:hover {
+        background: var(--soft);
+      }
+      .in {
+        border-radius: 10px;
+      }
+      .chip {
+        border-radius: 10px;
+      }
+      .chip.on {
+        background: var(--pri);
+      }
+      .tag {
+        border-radius: 7px;
+        background: var(--soft);
+      }
+      .dt {
+        border-radius: 10px;
+      }
+      .tabs button {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      .av {
+        border: 2px solid var(--card);
+      }
+      @media (min-width: 500px) {
+        #ph {
+          max-width: 430px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ph">
+      <div id="scr"></div>
+      <div id="nav"></div>
+      <div id="toast"></div>
+    </div>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      const TR = {
+        Domov: "Home",
+        Skupine: "Groups",
+        Koledar: "Calendar",
+        Profil: "Profile",
+        Klepet: "Chat",
+        "Prihajajoče obveznosti": "Upcoming",
+        "Moje skupine": "My groups",
+        "Odkrij skupine": "Discover groups",
+        "Ustvari skupino": "Create group",
+        "Pridruži se s kodo ali povabilom": "Join with code or invite",
+        "Pridruži se": "Join",
+        "Dodaj dogodek": "Add event",
+        Osebno: "Private",
+        Začni: "Start",
+        Premor: "Pause",
+        Ponastavi: "Reset",
+        "Čas za učenje": "Focus time",
+        "Čas za odmor": "Break time",
+        Objave: "Posts",
+        Gradiva: "Materials",
+        Dogodki: "Events",
+        Opravila: "Tasks",
+        Vprašanja: "Questions",
+        Prijava: "Log in",
+        Registracija: "Sign up",
+        "Jezik aplikacije": "App language",
+        Obvestila: "Notifications",
+        Odjava: "Log out",
+        "Osebni zapiski": "Personal notes",
+        "Shranjena gradiva": "Saved materials",
+        Predmeti: "Subjects",
+        Uredi: "Edit",
+        "Išči skupine": "Search groups",
+        Vse: "All",
+        "Najdi partnerja za učenje": "Find a study partner",
+        Živjo: "Hi",
+        "Nova objava": "New post",
+        "Dodaj gradivo": "Add material",
+        "Nov termin": "New session",
+        "Nova anketa": "New poll",
+        "Nova naloga": "New task",
+        "Novo vprašanje": "New question",
+        "Skupni napredek": "Team progress",
+        "Samo vi": "Only you",
+        "Skupinski termin": "Group session",
+        "Pišite sporočilo…": "Write a message…",
+        Prekliči: "Cancel",
+        Objavi: "Post",
+        Shrani: "Save",
+        "Ime in priimek": "Full name",
+        Fakulteta: "Faculty",
+        Smer: "Programme",
+        Letnik: "Year",
+        "E-pošta": "Email",
+        Geslo: "Password",
+        "Ustvari račun": "Create account",
+        "Še nimate računa? Registrirajte se": "No account? Sign up",
+        "Že imate račun? Prijavite se": "Have an account? Log in",
+        "Obvestila o sporočilih": "Message alerts",
+        "Opomniki za roke": "Deadline reminders",
+        Kmalu: "Soon",
+        "Mednarodne učne sobe": "International study rooms",
+        Tutorji: "Tutors",
+        "Učne sobe": "Study rooms",
+        "Zasebna sporočila": "Private messages",
+        "Pomodoro časovnik": "Pomodoro timer",
+        Poišči: "Search",
+        Povabi: "Invite",
+        Naslov: "Title",
+        Datum: "Date",
+        Ura: "Time",
+        Opis: "Description",
+        Opomnik: "Reminder",
+        Lokacija: "Location",
+        Vrsta: "Type",
+        Anketa: "Poll",
+        Odgovori: "Answer",
+        Nazaj: "Back",
+      };
+      const T = (s) => (S.lang == "en" && TR[s]) || s;
+      const P = {
+        home: '<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+        users:
+          '<circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.500 3-6 7-6s7 2.500 7 6M16 4.500a3.500 3.500 0 0 1 0 7M18 14.500c2.500.7 4 2.800 4 5.500"/>',
+        cal: '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+        user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.500-6 8-6s8 2 8 6"/>',
+        bell: '<path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/>',
+        clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+        plus: '<path d="M12 5v14M5 12h14"/>',
+        search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
+        send: '<path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/>',
+        lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+        bm: '<path d="M6 3h12v18l-6-4-6 4z"/>',
+        chat: '<path d="M21 12a8 8 0 0 1-11.500 7.200L3 21l1.800-6A8 8 0 1 1 21 12z"/>',
+        file: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/>',
+        link: '<path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>',
+        img: '<rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/>',
+        check: '<path d="M5 12l5 5 9-10"/>',
+        back: '<path d="M15 5l-7 7 7 7"/>',
+        pin: '<path d="M12 21s7-6 7-12a7 7 0 0 0-14 0c0 6 7 12 7 12z"/><circle cx="12" cy="9" r="2.500"/>',
+        note: '<path d="M4 4h16v12l-4 4H4z"/><path d="M16 20v-4h4"/>',
+      };
+      const I = (n) =>
+        `<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${P[n]}</svg>`;
+      const iso = (d) =>
+        d.getFullYear() +
+        "-" +
+        String(d.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(d.getDate()).padStart(2, "0");
+      const off = (n) => {
+        const d = new Date();
+        d.setDate(d.getDate() + n);
+        return iso(d);
+      };
+      const SC = {
+        "Programiranje 1": "#4B3FC4",
+        "Podatkovne baze": "#22A99B",
+        Matematika: "#FF7A66",
+        Calculus: "#E0A21F",
+      };
+      const AC = [
+        "#4B3FC4",
+        "#22A99B",
+        "#FF7A66",
+        "#D9972B",
+        "#7A5AF0",
+        "#2D7FD3",
+      ];
+      const av = (n) =>
+        `<span class="av" style="background:${AC[(n.charCodeAt(0) + n.length) % 6]}">${n[0]}</span>`;
+      const tag = (s) =>
+        `<span class="tag"><i style="background:${SC[s] || "#8883C9"}"></i>${s}</span>`;
+      const empty = (a, b) => `<div class="emp"><b>${T(a)}</b>${T(b)}</div>`;
+      const S = {
+        scr: "login",
+        tab: "home",
+        lang: "sl",
+        gid: null,
+        gt: "Objave",
+        q: "",
+        sf: "Vse",
+        mf: "Vse",
+        sel: off(0),
+        mo: new Date().getMonth(),
+        yr: new Date().getFullYear(),
+        auth: "login",
+        pr: 0,
+        sh: null,
+        user: {
+          name: "Ana Novak",
+          fac: "FERI, Univerza v Mariboru",
+          smer: "Računalništvo",
+          let: "2. letnik",
+          subj: ["Programiranje 1", "Podatkovne baze", "Matematika"],
+        },
+        nt: { msg: 1, rok: 1 },
+        notes: [
+          "Kolokvij: ponoviti rekurzijo in sortiranje",
+          "Vprašati asistenta glede seminarske",
+        ],
+        saved: [],
+        groups: [
+          {
+            id: 1,
+            subj: "Programiranje 1",
+            name: "Python vsak torek",
+            desc: "Vaje, naloge in priprava na kolokvij.",
+            n: 12,
+            j: 1,
+          },
+          {
+            id: 2,
+            subj: "Podatkovne baze",
+            name: "SQL za izpit",
+            desc: "Poizvedbe, normalizacija in stari izpiti.",
+            n: 8,
+            j: 1,
+          },
+          {
+            id: 3,
+            subj: "Matematika",
+            name: "Matematika 1 – kolokviji",
+            desc: "Reševanje nalog iz zbirke.",
+            n: 15,
+            j: 1,
+          },
+          {
+            id: 4,
+            subj: "Calculus",
+            name: "Calculus Study Circle",
+            desc: "Limits, derivatives, integrals. Delamo tudi v angleščini.",
+            n: 21,
+            j: 0,
+            code: "CALC24",
+          },
+          {
+            id: 5,
+            subj: "Programiranje 1",
+            name: "Algoritmi za začetnike",
+            desc: "Zanke, rekurzija in iskanje.",
+            n: 9,
+            j: 0,
+          },
+        ],
+        events: [
+          {
+            t: "Predavanje: Matematika",
+            d: off(1),
+            h: "10:00",
+            loc: "Dvorana A1",
+            p: 1,
+          },
+          { t: "Rok: oddaja seminarske", d: off(4), h: "23:59", p: 1 },
+          {
+            t: "Izpit: Programiranje 1",
+            d: off(9),
+            h: "09:00",
+            loc: "FERI, P2",
+            p: 1,
+          },
+          {
+            t: "Skupno učenje SQL",
+            d: off(1),
+            h: "17:00",
+            loc: "Knjižnica UM (v živo)",
+            gid: 2,
+          },
+          {
+            t: "Python vaje na daljavo",
+            d: off(2),
+            h: "18:00",
+            loc: "Na daljavo",
+            gid: 1,
+          },
+        ],
+        notif: [
+          {
+            i: "chat",
+            t: "Luka je v skupini Python vsak torek poslal sporočilo",
+            w: "pred 5 min",
+          },
+          {
+            i: "file",
+            t: "Maja je dodala gradivo »Zanke in rekurzija«",
+            w: "pred 1 uro",
+          },
+          {
+            i: "bell",
+            t: "Jutri ob 10:00: Predavanje Matematika",
+            w: "pred 2 urami",
+          },
+        ],
+      };
+      const PO = {
+        m: "focus",
+        left: 1500,
+        run: 0,
+        subj: "Programiranje 1",
+        log: 0,
+        n: 0,
+      };
+      const C = {
+        1: {
+          posts: [
+            {
+              by: "Luka",
+              t: "Jutri rešujemo naloge 4–7 iz zbirke. Prinesite laptope!",
+              time: "pred 2 h",
+            },
+            {
+              by: "Maja",
+              t: "Dodala sem povzetek za kolokvij.",
+              time: "včeraj",
+            },
+          ],
+          mats: [
+            { t: "Zanke in rekurzija", ty: "PDF", th: "Zanke", by: "Maja" },
+            {
+              t: "Zapiski: seznami in slovarji",
+              ty: "Zapiski",
+              th: "Podatkovne strukture",
+              by: "Luka",
+            },
+            {
+              t: "Shema rekurzivnih klicev",
+              ty: "Slika",
+              th: "Rekurzija",
+              by: "Žan",
+            },
+            {
+              t: "Python docs – lists",
+              ty: "Povezava",
+              th: "Podatkovne strukture",
+              by: "Eva",
+            },
+          ],
+          tasks: [
+            { t: "Rešiti naloge 4–7", who: "Ana", due: off(2), done: 1 },
+            {
+              t: "Pripraviti povzetek rekurzije",
+              who: "Maja",
+              due: off(3),
+              done: 0,
+            },
+            {
+              t: "Preveriti stare kolokvije",
+              who: "Luka",
+              due: off(5),
+              done: 0,
+            },
+          ],
+          polls: [
+            {
+              q: "Kdaj se učimo v četrtek?",
+              o: [
+                { t: "16:00", v: 3 },
+                { t: "18:00", v: 5 },
+                { t: "20:00", v: 1 },
+              ],
+              my: -1,
+            },
+          ],
+          qa: [
+            {
+              q: "Kdaj uporabiti rekurzijo namesto zanke?",
+              by: "Nik",
+              a: [
+                {
+                  t: "Kadar je problem naravno razdeljiv na manjše podprobleme, npr. drevesa.",
+                  by: "Maja",
+                },
+              ],
+            },
+          ],
+          msgs: [
+            { by: "Luka", t: "Hej, kdo je za vaje jutri?", h: "14:02" },
+            { by: "Maja", t: "Jaz! Prinesem zapiske.", h: "14:05" },
+          ],
+        },
+        2: {
+          posts: [
+            {
+              by: "Eva",
+              t: "Stari izpiti so v gradivih.",
+              time: "pred 3 dnevi",
+            },
+          ],
+          mats: [
+            {
+              t: "Normalizacija – primeri",
+              ty: "PDF",
+              th: "Normalizacija",
+              by: "Eva",
+            },
+          ],
+          tasks: [],
+          polls: [],
+          qa: [],
+          msgs: [],
+        },
+        3: { posts: [], mats: [], tasks: [], polls: [], qa: [], msgs: [] },
+        4: { posts: [], mats: [], tasks: [], polls: [], qa: [], msgs: [] },
+        5: { posts: [], mats: [], tasks: [], polls: [], qa: [], msgs: [] },
+      };
+      const G = (id) => S.groups.find((g) => g.id == id),
+        toast = (m) => {
+          const t = $("#toast");
+          t.textContent = m;
+          t.className = "on";
+          clearTimeout(toast.t);
+          toast.t = setTimeout(() => (t.className = ""), 2600);
+        };
+      const loc = () => (S.lang == "en" ? "en-GB" : "sl-SI");
+      function go(s, k) {
+        S.scr = s;
+        if (k) S.tab = k;
+        R(0);
+      }
+      function R(keep = 1) {
+        const a = $("#scr"),
+          st = a.scrollTop;
+        const F = {
+          login: Login,
+          home: Home,
+          groups: Groups,
+          cal: Cal,
+          prof: Prof,
+          group: Group,
+          pomo: Pomo,
+          notif: Notif,
+          partner: Partner,
+          tutors: Tutors,
+          rooms: Rooms,
+          room: Room,
+          dm: DMs,
+          dmc: DMC,
+          thome: THome,
+          trooms: TRooms,
+          tsetup: TSetup,
+        }[S.scr];
+        a.innerHTML = F() + (S.sh ? Sheet() : "");
+        a.scrollTop = keep ? st : 0;
+        const tt = S.role == "tutor",
+          nv = tt
+            ? ["thome", "trooms", "dm"]
+            : ["home", "groups", "cal", "prof"],
+          ic = tt
+            ? ["home", "users", "chat"]
+            : ["home", "users", "cal", "user"],
+          lb = tt
+            ? ["Nadzor", "Sobe", "Sporočila"]
+            : ["Domov", "Skupine", "Koledar", "Profil"];
+        $("#nav").style.display = nv.includes(S.scr) ? "flex" : "none";
+        $("#nav").innerHTML = nv
+          .map(
+            (k, i) =>
+              `<button class="${S.tab == k ? "on" : ""}" onclick="go('${k}','${k}')">${I(ic[i])}${T(lb[i])}</button>`,
+          )
+          .join("");
+      }
+      const hd = (t, back, r = "") =>
+        `<div class="hd">${back ? `<button class="ic" onclick="go('${back}')" aria-label="${T("Nazaj")}">${I("back")}</button>` : ""}<h1>${T(t)}</h1>${r}</div>`;
+      // SHEET
+      function sheet(title, fields, ok, fn) {
+        S.sh = { title, fields, ok, fn };
+        R();
+      }
+      function Sheet() {
+        const s = S.sh;
+        return `<div class="ov"><div class="sh"><div class="row"><h2 class="fx" style="margin:0">${T(s.title)}</h2></div>${s.fields.map((f) => `<label>${T(f.l)}</label>` + (f.t == "area" ? `<textarea class="in" id="f_${f.id}" rows="3">${f.v || ""}</textarea>` : f.t == "sel" ? `<select class="in" id="f_${f.id}">${f.o.map((o) => `<option ${o == f.v ? "selected" : ""}>${o}</option>`).join("")}</select>` : `<input class="in" id="f_${f.id}" type="${f.t || "text"}" value="${f.v || ""}">`)).join("")}<button class="b" onclick="subm()">${T(s.ok)}</button><button class="b b2" onclick="S.sh=null;R()">${T("Prekliči")}</button></div></div>`;
+      }
+      function subm() {
+        const v = {};
+        S.sh.fields.forEach((f) => (v[f.id] = $("#f_" + f.id).value.trim()));
+        const r = S.sh.fn(v);
+        if (r !== false) {
+          S.sh = null;
+          R();
+        }
+      }
+      // LOGIN
+      function Login() {
+        const r = S.auth == "reg";
+        return `<div class="login"><div class="logo">S</div><h1 style="font-size:28px;font-weight:800;margin:16px 0 4px">StudyBuddy</h1><p class="mut">Uči se pametneje, skupaj s sošolci.</p>
+<div class="seg mt" style="margin-top:20px"><button class="${r ? "" : "on"}" onclick="S.auth='login';R()">${T("Prijava")}</button><button class="${r ? "on" : ""}" onclick="S.auth='reg';R()">${T("Registracija")}</button></div>
+${r ? `<label>${T("Ime in priimek")}</label><input class="in" id="rn" value="Ana Novak"><label>${T("Fakulteta")}</label><input class="in" id="rf" value="FERI, Univerza v Mariboru"><label>${T("Smer")}</label><input class="in" id="rs" value="Računalništvo"><label>${T("Letnik")}</label><select class="in" id="rl"><option>1. letnik</option><option selected>2. letnik</option><option>3. letnik</option><option>Magistrij</option></select>` : ""}
+<label>${T("E-pošta")}</label><input class="in" id="em" type="email" placeholder="ana.novak@student.um.si"><label>${T("Geslo")}</label><input class="in" id="pw" type="password" placeholder="••••••••"><p id="er" class="sm" style="color:var(--cor);min-height:18px;margin-top:6px"></p>
+<button class="b" onclick="doAuth()">${r ? T("Ustvari račun") : T("Prijava")}</button></div>`;
+      }
+      function doAuth() {
+        const e = $("#em").value,
+          p = $("#pw").value;
+        if (!e.includes("@") || p.length < 4) {
+          $("#er").textContent =
+            "Vnesite veljaven e-poštni naslov in geslo (vsaj 4 znake).";
+          return;
+        }
+        if (S.auth == "reg") {
+          Object.assign(S.user, {
+            name: $("#rn").value || "Študent",
+            fac: $("#rf").value,
+            smer: $("#rs").value,
+            let: $("#rl").value,
+          });
+          toast("Račun je ustvarjen. Dobrodošli v StudyBuddy!");
+        }
+        go("home", "home");
+      }
+      // HOME
+      const evs = (f = () => 1) =>
+        S.events
+          .filter((e) => e.d >= off(0) && f(e))
+          .sort((a, b) => (a.d + a.h).localeCompare(b.d + b.h));
+      function evCard(e) {
+        const d = new Date(e.d + "T12:00"),
+          g = e.gid && G(e.gid);
+        return `<div class="c ev ${e.p ? "pv" : "gv"}"><div class="dt"><b>${d.getDate()}</b>${d.toLocaleDateString(loc(), { month: "short" })}</div><div class="fx"><b>${e.t}</b><div class="sm mut">${e.h}${e.loc ? " · " + e.loc : ""}</div></div>${e.p ? `<span class="tag" style="color:var(--teal)">${I("lock").replace('class="i"', 'class="i" style="width:12px;height:12px"')}${T("Osebno")}</span>` : tag(g.subj)}</div>`;
+      }
+      function Home() {
+        const g = S.groups.filter((x) => x.j),
+          u = evs().slice(0, 4);
+        return `<div class="hero"><div class="row"><div class="fx"><small style="opacity:.8">${new Date().toLocaleDateString(loc(), { weekday: "long", day: "numeric", month: "long" })}</small><h1>${T("Živjo")}, ${S.user.name.split(" ")[0]}</h1></div><button class="ic" onclick="go('notif')" aria-label="${T("Obvestila")}">${I("bell")}<span class="dot"></span></button></div>
+<div class="row" style="margin-top:16px;background:rgba(255,255,255,.12);border-radius:16px;padding:12px;cursor:pointer" onclick="go('pomo')"><span style="color:var(--yel)">${I("clock")}</span><div class="fx"><b>Pomodoro</b><div class="sm" style="opacity:.8">Danes: ${PO.log} min učenja</div></div><span class="tag" style="background:var(--yel);color:#2a2470">25 + 5</span></div></div>
+<div class="sc">${[
+          ["Koledar", "cal", "go('cal','cal')"],
+          ["Skupine", "users", "go('groups','groups')"],
+          ["Klepet", "chat", "openG(1,'Klepet')"],
+          ["Pomodoro", "clock", "go('pomo')"],
+        ]
+          .map((x) => `<button onclick="${x[2]}">${I(x[1])}${T(x[0])}</button>`)
+          .join("")}</div>
+<h2>${T("Moje skupine")}</h2><div class="hs">${g.map((x) => `<div class="c" onclick="openG(${x.id})">${tag(x.subj)}<b style="display:block;margin:8px 0 2px">${x.name}</b><div class="sm mut">${x.n} članov</div></div>`).join("")}</div>
+<h2>${T("Prihajajoče obveznosti")}</h2>${u.length ? u.map(evCard).join("") : empty("Ni prihajajočih dogodkov", "Dodajte prvi dogodek v koledarju.")}
+<div class="c row" style="cursor:pointer;background:var(--soft)" onclick="go('partner')">${I("search")}<div class="fx"><b>${T("Najdi partnerja za učenje")}</b><div class="sm mut">Izberi predmet, temo in termin.</div></div></div>`;
+      }
+      function openG(id, t = "Objave") {
+        S.gid = id;
+        S.gt = t;
+        go("group");
+      }
+      // GROUPS
+      function GL() {
+        const q = S.q.toLowerCase(),
+          f = (g) =>
+            (S.sf == "Vse" || g.subj == S.sf) &&
+            (g.name + g.subj + g.desc).toLowerCase().includes(q);
+        const card = (g) =>
+          `<div class="c"><div class="row">${tag(g.subj)}<span class="fx"></span><small class="mut">${g.n} članov</small></div><b style="display:block;margin:8px 0 2px">${g.name}</b><div class="sm mut">${g.desc}</div>${g.j ? `<button class="b b2 bs mt" onclick="openG(${g.id})">Odpri skupino</button>` : `<button class="b bs mt" onclick="joinG(${g.id})">${T("Pridruži se")}</button>`}</div>`;
+        const a = S.groups.filter((g) => g.j && f(g)),
+          b = S.groups.filter((g) => !g.j && f(g));
+        return `<h2>${T("Moje skupine")}</h2>${a.length ? a.map(card).join("") : empty("Ni zadetkov", "Poskusite drug predmet ali iskalni niz.")}<h2>${T("Odkrij skupine")}</h2>${b.length ? b.map(card).join("") : empty("Ni novih skupin", "Ustvarite svojo skupino.")}`;
+      }
+      function Groups() {
+        const sb = ["Vse", ...new Set(S.groups.map((g) => g.subj))];
+        return (
+          hd(
+            "Skupine",
+            0,
+            `<button class="ic" onclick="newG()" aria-label="${T("Ustvari skupino")}">${I("plus")}</button>`,
+          ) +
+          `<input class="in" placeholder="${T("Išči skupine")}" value="${S.q}" oninput="S.q=this.value;$('#gl').innerHTML=GL()" style="margin:0 0 10px"><div class="chips">${sb.map((s) => `<button class="chip ${S.sf == s ? "on" : ""}" onclick="S.sf='${s}';R()">${T(s)}</button>`).join("")}</div>
+<div class="row" style="margin-bottom:6px"><button class="b bs fx" onclick="newG()">${T("Ustvari skupino")}</button><button class="b b2 bs fx" onclick="codeG()">Pridruži se s kodo</button></div><div id="gl">${GL()}</div>
+<h2>Razširitve</h2><div class="sc" style="grid-template-columns:1fr 1fr">${[
+            ["Mednarodne učne sobe", "pin", "setRm('intl')"],
+            ["Tutorji", "user", "go('tutors')"],
+            ["Učne sobe", "users", "setRm('study')"],
+            ["Zasebna sporočila", "chat", "go('dm')"],
+          ]
+            .map(
+              (x) => `<button onclick="${x[2]}">${I(x[1])}${T(x[0])}</button>`,
+            )
+            .join("")}</div>`
+        );
+      }
+      function joinG(id) {
+        const g = G(id);
+        g.j = 1;
+        g.n++;
+        toast("Pridružili ste se skupini »" + g.name + "«.");
+        R();
+      }
+      function codeG() {
+        sheet(
+          "Pridruži se s kodo ali povabilom",
+          [{ id: "c", l: "Koda povabila", v: "" }],
+          "Pridruži se",
+          (v) => {
+            const g = S.groups.find(
+              (x) => x.code && x.code == v.c.toUpperCase(),
+            );
+            if (!g) {
+              toast("Koda ni veljavna. Poskusite CALC24.");
+              return false;
+            }
+            joinG(g.id);
+          },
+        );
+      }
+      function newG() {
+        sheet(
+          "Ustvari skupino",
+          [
+            { id: "s", l: "Predmet", t: "sel", o: Object.keys(SC) },
+            { id: "n", l: "Naziv skupine" },
+            { id: "d", l: "Opis", t: "area" },
+          ],
+          "Ustvari skupino",
+          (v) => {
+            if (!v.n) {
+              toast("Vnesite naziv skupine.");
+              return false;
+            }
+            const id = Date.now();
+            S.groups.push({
+              id,
+              subj: v.s,
+              name: v.n,
+              desc: v.d || "Nova študijska skupina.",
+              n: 1,
+              j: 1,
+            });
+            C[id] = {
+              posts: [],
+              mats: [],
+              tasks: [],
+              polls: [],
+              qa: [],
+              msgs: [],
+            };
+            toast("Skupina je ustvarjena.");
+          },
+        );
+      }
+      // GROUP DETAIL
+      function Group() {
+        const g = G(S.gid),
+          c = C[g.id],
+          tb = [
+            "Objave",
+            "Gradiva",
+            "Dogodki",
+            "Opravila",
+            "Vprašanja",
+            "Klepet",
+          ],
+          col = SC[g.subj] || "#8883C9";
+        let b = "";
+        const add = (f, l) =>
+          `<button class="b" onclick="${f}">${T(l)}</button>`;
+        if (S.gt == "Objave")
+          b =
+            (c.posts.length
+              ? c.posts
+                  .map(
+                    (p) =>
+                      `<div class="c"><div class="row">${av(p.by)}<b class="fx">${p.by}</b><small class="mut">${p.time}</small></div><p class="mt">${p.t}</p></div>`,
+                  )
+                  .join("")
+              : empty("Še ni objav", "Začnite pogovor s skupino.")) +
+            add("addPost()", "Nova objava");
+        if (S.gt == "Gradiva") {
+          const ty = ["Vse", "Zapiski", "PDF", "Slika", "Povezava"],
+            m = c.mats.filter((x) => S.mf == "Vse" || x.ty == S.mf);
+          b =
+            `<div class="chips">${ty.map((t) => `<button class="chip ${S.mf == t ? "on" : ""}" onclick="S.mf='${t}';R()">${T(t)}</button>`).join("")}</div>` +
+            (m.length
+              ? m
+                  .map((x) => {
+                    const k = S.saved.includes(x.t);
+                    return `<div class="c row"><span style="color:var(--pri)">${I(x.ty == "Slika" ? "img" : x.ty == "Povezava" ? "link" : "file")}</span><div class="fx"><b>${x.t}</b><div class="sm mut">${x.ty} · ${x.th} · ${x.by}</div></div><button class="ic" style="${k ? "color:var(--yel)" : ""}" onclick="saveM('${x.t}')" aria-label="Shrani">${I("bm")}</button></div>`;
+                  })
+                  .join("")
+              : empty("Ni gradiv", "Delite prvi zapisek ali PDF.")) +
+            add("addMat()", "Dodaj gradivo");
+        }
+        if (S.gt == "Dogodki") {
+          const e = S.events.filter((x) => x.gid == g.id);
+          b =
+            (e.length
+              ? e.map(evCard).join("")
+              : empty(
+                  "Ni terminov",
+                  "Predlagajte prvi termin skupnega učenja.",
+                )) +
+            add("newSess()", "Nov termin") +
+            `<h2>${T("Anketa")}</h2>` +
+            (c.polls.length
+              ? c.polls
+                  .map((p, i) => {
+                    const t = p.o.reduce((s, o) => s + o.v, 0);
+                    return `<div class="c"><b>${p.q}</b>${p.o.map((o, j) => `<div style="margin-top:10px;cursor:pointer" onclick="vote(${i},${j})"><div class="row sm"><span class="fx">${p.my == j ? "● " : ""}${o.t}</span><b>${Math.round((o.v / t) * 100)}%</b></div><div class="bar mt"><i style="width:${(o.v / t) * 100}%;background:${p.my == j ? "var(--pri)" : "var(--teal)"}"></i></div></div>`).join("")}<div class="sm mut mt">${t} glasov</div></div>`;
+                  })
+                  .join("")
+              : empty(
+                  "Ni anket",
+                  "Vprašajte skupino za termin ali lokacijo.",
+                )) +
+            `<button class="b b2" onclick="newPoll()">${T("Nova anketa")}</button>`;
+        }
+        if (S.gt == "Opravila") {
+          const d = c.tasks.filter((t) => t.done).length,
+            n = c.tasks.length;
+          b =
+            (n
+              ? `<div class="c"><div class="row sm"><b class="fx">${T("Skupni napredek")}</b><b>${d}/${n}</b></div><div class="bar mt"><i style="width:${(d / n) * 100}%"></i></div></div>` +
+                c.tasks
+                  .map(
+                    (t, i) =>
+                      `<div class="c row"><button class="chk ${t.done ? "on" : ""}" onclick="C[${g.id}].tasks[${i}].done^=1;R()" aria-label="Opravljeno">${t.done ? I("check").replace('class="i"', 'class="i" style="width:14px;height:14px"') : ""}</button><div class="fx" style="${t.done ? "text-decoration:line-through;opacity:.6" : ""}"><b>${t.t}</b><div class="sm mut">Rok: ${t.due.slice(5).replace("-", ". ")}.</div></div>${av(t.who)}</div>`,
+                  )
+                  .join("")
+              : empty("Ni opravil", "Razdelite delo za izpit ali projekt.")) +
+            add("addTask()", "Nova naloga");
+        }
+        if (S.gt == "Vprašanja")
+          b =
+            (c.qa.length
+              ? c.qa
+                  .map(
+                    (q, i) =>
+                      `<div class="c"><div class="row">${av(q.by)}<b class="fx">${q.q}</b></div>${q.a.map((a) => `<div class="row mt" style="background:var(--soft);border-radius:12px;padding:8px">${av(a.by)}<span class="sm">${a.t}</span></div>`).join("")}<button class="b b2 bs mt" onclick="addAns(${i})">${T("Odgovori")}</button></div>`,
+                  )
+                  .join("")
+              : empty("Ni vprašanj", "Postavite prvo vprašanje o predmetu.")) +
+            add("addQ()", "Novo vprašanje");
+        if (S.gt == "Klepet")
+          b = `<div style="display:flex;flex-direction:column;gap:10px;min-height:200px">${c.msgs.length ? c.msgs.map((m) => (m.by == "Ana" ? `<div class="bub me">${m.t}<div class="sm" style="opacity:.7">${m.h}</div></div>` : `<div class="row" style="align-items:flex-end">${av(m.by)}<div class="bub"><b class="sm">${m.by}</b><div>${m.t}</div><div class="sm mut">${m.h}</div></div></div>`)).join("") : empty("Ni sporočil", "Napišite prvo sporočilo.")}</div><div class="cin"><input class="in" id="msg" style="margin:0" placeholder="${T("Pišite sporočilo…")}" onkeydown="if(event.key=='Enter')sendM()"><button class="ic" style="background:var(--pri);color:#fff;border:0" onclick="sendM()" aria-label="Pošlji">${I("send")}</button></div>`;
+        return `<div style="margin:0 -16px;background:${col};color:#fff;padding:14px 16px 18px;border-radius:0 0 22px 22px"><button class="ic" style="margin-bottom:10px" onclick="go('groups')" aria-label="Nazaj">${I("back")}</button><small style="opacity:.9">${g.subj}</small><h1 style="font-size:22px;font-weight:800">${g.name}</h1><p class="sm" style="opacity:.95;margin:4px 0 10px">${g.desc}</p><div class="row avs">${["Ana", "Luka", "Maja", "Žan", "Eva"].map(av).join("")}<small style="margin-left:6px">${g.n} članov</small></div></div><div class="tabs" style="margin-top:10px">${tb.map((t) => `<button class="${S.gt == t ? "on" : ""}" onclick="S.gt='${t}';R(0)">${T(t)}</button>`).join("")}</div>${b}`;
+      }
+      const CG = () => C[S.gid];
+      function addPost() {
+        sheet(
+          "Nova objava",
+          [{ id: "t", l: "Besedilo", t: "area" }],
+          "Objavi",
+          (v) => {
+            if (!v.t) return false;
+            CG().posts.unshift({ by: "Ana", t: v.t, time: "zdaj" });
+            toast("Objava je dodana.");
+          },
+        );
+      }
+      function addMat() {
+        sheet(
+          "Dodaj gradivo",
+          [
+            { id: "t", l: "Naslov" },
+            {
+              id: "ty",
+              l: "Vrsta",
+              t: "sel",
+              o: ["Zapiski", "PDF", "Slika", "Povezava"],
+            },
+            { id: "th", l: "Tema" },
+          ],
+          "Dodaj gradivo",
+          (v) => {
+            if (!v.t) return false;
+            CG().mats.unshift({
+              t: v.t,
+              ty: v.ty,
+              th: v.th || "Splošno",
+              by: "Ana",
+            });
+            toast("Gradivo je deljeno s skupino.");
+          },
+        );
+      }
+      function saveM(t) {
+        const i = S.saved.indexOf(t);
+        i < 0
+          ? (S.saved.push(t), toast("Gradivo je shranjeno med osebne vsebine."))
+          : (S.saved.splice(i, 1),
+            toast("Gradivo je odstranjeno iz shranjenih."));
+        R();
+      }
+      function vote(i, j) {
+        const p = CG().polls[i];
+        if (p.my >= 0) p.o[p.my].v--;
+        p.my = j;
+        p.o[j].v++;
+        R();
+      }
+      function newPoll() {
+        sheet(
+          "Nova anketa",
+          [
+            { id: "q", l: "Vprašanje", v: "Kje se učimo?" },
+            { id: "a", l: "Možnost 1", v: "Knjižnica UM" },
+            { id: "b", l: "Možnost 2", v: "Fakulteta" },
+            { id: "c", l: "Možnost 3", v: "Na daljavo" },
+          ],
+          "Objavi",
+          (v) => {
+            CG().polls.push({
+              q: v.q,
+              o: [v.a, v.b, v.c].filter(Boolean).map((t) => ({ t, v: 0 })),
+              my: -1,
+            });
+            toast("Anketa je objavljena.");
+          },
+        );
+      }
+      function addTask() {
+        sheet(
+          "Nova naloga",
+          [
+            { id: "t", l: "Naloga" },
+            {
+              id: "w",
+              l: "Dodeli članu",
+              t: "sel",
+              o: ["Ana", "Luka", "Maja", "Žan", "Eva"],
+            },
+            { id: "d", l: "Rok", t: "date", v: off(3) },
+          ],
+          "Shrani",
+          (v) => {
+            if (!v.t) return false;
+            CG().tasks.push({ t: v.t, who: v.w, due: v.d, done: 0 });
+            toast("Naloga je dodeljena članu " + v.w + ".");
+          },
+        );
+      }
+      function addQ() {
+        sheet(
+          "Novo vprašanje",
+          [{ id: "q", l: "Vprašanje", t: "area" }],
+          "Objavi",
+          (v) => {
+            if (!v.q) return false;
+            CG().qa.unshift({ q: v.q, by: "Ana", a: [] });
+            toast("Vprašanje je objavljeno.");
+          },
+        );
+      }
+      function addAns(i) {
+        sheet(
+          "Odgovori",
+          [{ id: "t", l: "Odgovor ali razlaga", t: "area" }],
+          "Objavi",
+          (v) => {
+            if (!v.t) return false;
+            CG().qa[i].a.push({ t: v.t, by: "Ana" });
+            toast("Odgovor je dodan.");
+          },
+        );
+      }
+      function sendM() {
+        const el = $("#msg"),
+          t = el.value.trim();
+        if (!t) return;
+        const h = new Date().toTimeString().slice(0, 5),
+          id = S.gid;
+        C[id].msgs.push({ by: "Ana", t, h });
+        R();
+        $("#scr").scrollTop = 1e6;
+        $("#msg").focus();
+        setTimeout(() => {
+          C[id].msgs.push({
+            by: "Luka",
+            t: "Super, vidimo se! 👍".replace(" 👍", ""),
+            h,
+          });
+          if (S.scr == "group" && S.gt == "Klepet") {
+            R();
+            $("#scr").scrollTop = 1e6;
+          }
+        }, 1400);
+      }
+      function newSess() {
+        addEv({ gid: S.gid });
+      }
+      // CALENDAR
+      function Cal() {
+        const f = new Date(S.yr, S.mo, 1),
+          n = new Date(S.yr, S.mo + 1, 0).getDate(),
+          o = (f.getDay() + 6) % 7,
+          wd =
+            S.lang == "en"
+              ? ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
+              : ["Po", "To", "Sr", "Če", "Pe", "So", "Ne"];
+        let cells = "";
+        for (let i = 0; i < o; i++) cells += "<i></i>";
+        for (let d = 1; d <= n; d++) {
+          const k =
+              S.yr +
+              "-" +
+              String(S.mo + 1).padStart(2, "0") +
+              "-" +
+              String(d).padStart(2, "0"),
+            e = S.events.filter((x) => x.d == k);
+          cells += `<button class="${k == off(0) ? "tdy " : ""}${k == S.sel ? "on" : ""}" onclick="S.sel='${k}';R()">${d}<em>${e.some((x) => x.p) ? '<i style="background:var(--teal)"></i>' : ""}${e.some((x) => !x.p) ? '<i style="background:' + (k == S.sel ? "#fff" : "var(--pri)") + '"></i>' : ""}</em></button>`;
+        }
+        const ds = S.events
+          .filter((e) => e.d == S.sel)
+          .sort((a, b) => a.h.localeCompare(b.h));
+        return (
+          hd(
+            "Koledar",
+            0,
+            `<button class="ic" onclick="addEv()" aria-label="${T("Dodaj dogodek")}">${I("plus")}</button>`,
+          ) +
+          `<div class="c"><div class="row" style="margin-bottom:8px"><button class="ic" onclick="mv(-1)" aria-label="Prejšnji mesec">${I("back")}</button><b class="fx" style="text-align:center;text-transform:capitalize">${f.toLocaleDateString(loc(), { month: "long", year: "numeric" })}</b><button class="ic" onclick="mv(1)" style="transform:scaleX(-1)" aria-label="Naslednji mesec">${I("back")}</button></div><div class="cal">${wd.map((w) => `<span>${w}</span>`).join("")}${cells}</div>
+<div class="row sm mut mt" style="gap:14px;margin-top:10px"><span class="row" style="gap:5px"><i style="width:8px;height:8px;border-radius:50%;background:var(--teal)"></i>Osebno (samo vi)</span><span class="row" style="gap:5px"><i style="width:8px;height:8px;border-radius:50%;background:var(--pri)"></i>Skupinsko (člani skupine)</span></div></div>
+<h2>${new Date(S.sel + "T12:00").toLocaleDateString(loc(), { weekday: "long", day: "numeric", month: "long" })}</h2>${ds.length ? ds.map(evCard).join("") : empty("Ta dan nimate obveznosti", "Dodajte osebni dogodek ali skupinski termin.")}<button class="b" onclick="addEv()">${T("Dodaj dogodek")}</button>`
+        );
+      }
+      function mv(d) {
+        S.mo += d;
+        if (S.mo < 0) {
+          S.mo = 11;
+          S.yr--;
+        }
+        if (S.mo > 11) {
+          S.mo = 0;
+          S.yr++;
+        }
+        R();
+      }
+      function addEv(pre = {}) {
+        const gs = S.groups.filter((g) => g.j).map((g) => g.name),
+          PE = "Osebni dogodek (vidite samo vi)",
+          GE = "Skupinski termin (vidijo člani skupine)";
+        sheet(
+          pre.gid ? "Skupinski termin" : "Dodaj dogodek",
+          [
+            {
+              id: "k",
+              l: "Vrsta",
+              t: "sel",
+              o: [PE, GE],
+              v: pre.gid ? GE : PE,
+            },
+            {
+              id: "g",
+              l: "Skupina (samo za skupinski termin)",
+              t: "sel",
+              o: gs,
+              v: pre.gid ? G(pre.gid).name : gs[0],
+            },
+            { id: "t", l: "Naslov" },
+            { id: "d", l: "Datum", t: "date", v: S.sel },
+            { id: "h", l: "Ura", t: "time", v: "17:00" },
+            { id: "l", l: "Lokacija (npr. knjižnica, fakulteta)" },
+            {
+              id: "m",
+              l: "Način učenja",
+              t: "sel",
+              o: ["V živo", "Na daljavo"],
+            },
+            {
+              id: "a",
+              l: "Ozračje",
+              t: "sel",
+              o: ["V tišini", "Skupinska razprava"],
+            },
+            {
+              id: "o",
+              l: "Opomnik",
+              t: "sel",
+              o: ["Brez opomnika", "15 minut prej", "1 uro prej", "1 dan prej"],
+              v: "1 uro prej",
+            },
+            { id: "x", l: "Opis", t: "area" },
+          ],
+          "Shrani",
+          (v) => {
+            if (!v.t) {
+              toast("Vnesite naslov dogodka.");
+              return false;
+            }
+            const p = v.k == PE,
+              e = {
+                t: v.t,
+                d: v.d,
+                h: v.h,
+                loc: [v.l, p ? "" : v.m].filter(Boolean).join(" · "),
+              };
+            if (p) e.p = 1;
+            else e.gid = S.groups.find((g) => g.name == v.g).id;
+            S.events.push(e);
+            S.sel = v.d;
+            S.notif.unshift({
+              i: "bell",
+              t:
+                (v.o == "Brez opomnika"
+                  ? "Dodan dogodek: "
+                  : "Opomnik (" + v.o + "): ") + v.t,
+              w: "zdaj",
+            });
+            toast(
+              p
+                ? "Dogodek je dodan v vaš osebni koledar."
+                : "Termin je objavljen članom skupine.",
+            );
+          },
+        );
+      }
+      // NOTIF
+      function Notif() {
+        const tg = (k, l) =>
+          `<div class="row" style="margin-top:12px"><span class="fx">${T(l)}</span><button class="tg ${S.nt[k] ? "on" : ""}" onclick="S.nt.${k}^=1;R()" aria-label="${l}"></button></div>`;
+        return (
+          hd("Obvestila", "home") +
+          S.notif
+            .map(
+              (n) =>
+                `<div class="c row"><span style="color:var(--pri)">${I(n.i)}</span><div class="fx">${n.t}<div class="sm mut">${n.w}</div></div></div>`,
+            )
+            .join("") +
+          `<h2>Prilagodi obvestila</h2><div class="c">${tg("msg", "Obvestila o sporočilih")}${tg("rok", "Opomniki za roke")}</div>`
+        );
+      }
+      // POMODORO
+      function Pomo() {
+        const f = PO.m == "focus",
+          tot = f ? 1500 : 300,
+          m = String(Math.floor(PO.left / 60)).padStart(2, "0"),
+          s = String(PO.left % 60).padStart(2, "0"),
+          C2 = 2 * Math.PI * 88,
+          col = f ? "var(--pri)" : "var(--teal)";
+        return (
+          hd("Pomodoro časovnik", "home") +
+          `<div class="c" style="text-align:center"><span class="tag" style="background:${f ? "var(--soft)" : "var(--teal)"};color:${f ? "var(--ink)" : "#fff"}">${T(f ? "Čas za učenje" : "Čas za odmor")}</span>
+<svg class="ring" width="220" height="220" viewBox="0 0 220 220"><circle cx="110" cy="110" r="88" fill="none" stroke="var(--soft)" stroke-width="12"/><circle cx="110" cy="110" r="88" fill="none" stroke="${col}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${C2}" stroke-dashoffset="${C2 * (1 - PO.left / tot)}" transform="rotate(-90 110 110)"/><text x="110" y="122" text-anchor="middle" font-size="44" font-weight="800" fill="currentColor">${m}:${s}</text></svg>
+<div class="row"><button class="b fx" onclick="pm('go')">${PO.run ? T("Premor") : T("Začni")}</button><button class="b b2 fx" onclick="pm('reset')">${T("Ponastavi")}</button></div>
+<label style="text-align:left">Predmet</label><select class="in" onchange="PO.subj=this.value">${S.user.subj.map((x) => `<option ${x == PO.subj ? "selected" : ""}>${x}</option>`).join("")}</select>
+<button class="chip mt" style="margin-top:12px" onclick="PO.left=3;PO.run=1;R()">Predogled: skoči na konec seje</button></div>
+<div class="c row"><span style="color:var(--yel)">${I("check")}</span><div class="fx"><b>Danes: ${PO.log} min učenja</b><div class="sm mut">${PO.n} zaključenih sej</div></div></div>`
+        );
+      }
+      function pm(a) {
+        if (a == "go") PO.run ^= 1;
+        else {
+          PO.run = 0;
+          PO.left = PO.m == "focus" ? 1500 : 300;
+        }
+        R();
+      }
+      setInterval(() => {
+        if (!PO.run) return;
+        PO.left--;
+        if (PO.left <= 0) {
+          PO.run = 0;
+          if (PO.m == "focus") {
+            PO.log += 25;
+            PO.n++;
+            PO.m = "break";
+            PO.left = 300;
+            toast(
+              "Seja je končana! Zabeleženih 25 min učenja: " + PO.subj + ".",
+            );
+          } else {
+            PO.m = "focus";
+            PO.left = 1500;
+            toast("Odmor je končan. Pripravljeni na novo sejo?");
+          }
+        }
+        if (S.scr == "pomo") R();
+      }, 1000);
+      // PARTNER
+      function Partner() {
+        const r = S.pr;
+        return (
+          hd("Najdi partnerja za učenje", "home") +
+          `<div class="c"><label style="margin-top:0">Predmet</label><select class="in" id="ps">${Object.keys(
+            SC,
+          )
+            .map((x) => `<option>${x}</option>`)
+            .join(
+              "",
+            )}</select><label>Tema</label><input class="in" id="pt" value="Priprava na kolokvij"><label>Termin</label><select class="in"><option>Delovniki popoldne</option><option>Večeri</option><option>Vikend</option></select><label>Način učenja</label><select class="in"><option>V živo</option><option>Na daljavo</option></select><label>Ozračje</label><select class="in"><option>V tišini</option><option>Skupinska razprava</option></select><button class="b" onclick="S.pr=1;R()">${T("Poišči")}</button></div>` +
+          (r
+            ? `<h2>Primerni partnerji</h2>${[
+                ["Žan Kos", "2. letnik · 92 % ujemanje"],
+                ["Eva Horvat", "3. letnik · 85 % ujemanje"],
+                ["Nik Zupan", "2. letnik · 78 % ujemanje"],
+              ]
+                .map(
+                  (p) =>
+                    `<div class="c row">${av(p[0])}<div class="fx"><b>${p[0]}</b><div class="sm mut">${p[1]}</div></div><button class="b bs" onclick="toast('Povabilo je poslano: ${p[0]}.')">${T("Povabi")}</button></div>`,
+                )
+                .join("")}<h2>Primerne skupine</h2>${S.groups
+                .filter((g) => !g.j)
+                .slice(0, 2)
+                .map(
+                  (g) =>
+                    `<div class="c row"><div class="fx">${tag(g.subj)}<b style="display:block;margin-top:4px">${g.name}</b></div><button class="b bs" onclick="joinG(${g.id})">${T("Pridruži se")}</button></div>`,
+                )
+                .join("")}`
+            : "")
+        );
+      }
+      // PROFILE
+      function Prof() {
+        const u = S.user,
+          tg = (k, l) =>
+            `<div class="row" style="margin-top:10px"><span class="fx">${T(l)}</span><button class="tg ${S.nt[k] ? "on" : ""}" onclick="S.nt.${k}^=1;R()" aria-label="${l}"></button></div>`;
+        const sv = S.groups
+          .flatMap((g) => C[g.id].mats)
+          .filter((m) => S.saved.includes(m.t));
+        return (
+          hd("Profil") +
+          `<div class="c row"><span class="av" style="width:56px;height:56px;font-size:22px;background:var(--pri)">${u.name[0]}</span><div class="fx"><b style="font-size:16px">${u.name}</b><div class="sm mut">${u.fac}<br>${u.smer} · ${u.let}</div></div><button class="b b2 bs" onclick="editP()">${T("Uredi")}</button></div>
+<h2>${T("Predmeti")}</h2><div class="chips" style="flex-wrap:wrap">${u.subj.map(tag).join("")}<button class="chip" onclick="addSubj()">+ Dodaj</button></div>
+<h2>${T("Jezik aplikacije")}</h2><div class="seg"><button class="${S.lang == "sl" ? "on" : ""}" onclick="setL('sl')">${S.lang == "sl" ? "✓ " : ""}Slovenščina</button><button class="${S.lang == "en" ? "on" : ""}" onclick="setL('en')">${S.lang == "en" ? "✓ " : ""}English</button></div>
+<h2>${T("Obvestila")}</h2><div class="c">${tg("msg", "Obvestila o sporočilih")}${tg("rok", "Opomniki za roke")}</div>
+<h2>${T("Shranjena gradiva")}</h2>${sv.length ? sv.map((m) => `<div class="c row"><span style="color:var(--pri)">${I("file")}</span><div class="fx"><b>${m.t}</b><div class="sm mut">${m.ty} · ${m.th}</div></div></div>`).join("") : empty("Ni shranjenih gradiv", "V skupini tapnite zaznamek ob gradivu.")}
+<div class="row"><h2 class="fx">${T("Osebni zapiski")}</h2><button class="ic" onclick="addNote()" aria-label="Nov zapisek">${I("plus")}</button></div><div class="sm mut" style="margin-bottom:6px">${I("lock").replace('class="i"', 'class="i" style="width:12px;height:12px;vertical-align:-2px"')} Vidni samo vam</div>${S.notes.map((n) => `<div class="c row">${I("note")}<span class="fx">${n}</span></div>`).join("")}
+<button class="b b2" onclick="S.scr='login';S.tab='home';R(0)">${T("Odjava")}</button>`
+        );
+      }
+      S.rm = "study";
+      S.rid = null;
+      S.dp = null;
+      S.dm = {
+        "Žan Kos": [
+          { by: "Žan Kos", t: "Živjo! Imaš jutri čas za SQL?", h: "09:10" },
+        ],
+      };
+      S.rooms = [
+        {
+          id: 1,
+          n: "Calculus Europe",
+          s: "Calculus",
+          w: "Maribor, Ljubljana, Zagreb, Dunaj",
+          open: 1,
+          intl: 1,
+          m: ["Eva", "Luka"],
+          msgs: [
+            {
+              by: "Eva",
+              t: "Welcome! We start at 18:00 with limits.",
+              h: "17:50",
+            },
+          ],
+        },
+        {
+          id: 2,
+          n: "Programming Night",
+          s: "Programiranje 1",
+          w: "Praga, Gradec, Maribor",
+          open: 1,
+          intl: 1,
+          m: ["Nik", "Žan"],
+          msgs: [],
+        },
+        {
+          id: 3,
+          n: "SQL v knjižnici",
+          s: "Podatkovne baze",
+          w: "Knjižnica UM, Maribor",
+          open: 0,
+          intl: 0,
+          m: ["Maja", "Eva"],
+          msgs: [],
+        },
+        {
+          id: 4,
+          n: "Matematika – tiha soba",
+          s: "Matematika",
+          w: "Fakulteta, Maribor",
+          open: 1,
+          intl: 0,
+          m: ["Luka"],
+          msgs: [],
+        },
+      ];
+      const TU = [
+        {
+          n: "Tina Kovač",
+          l: "4. letnik, Računalništvo",
+          r: "4,9",
+          s: ["Programiranje 1", "Podatkovne baze"],
+        },
+        {
+          n: "Jan Mlakar",
+          l: "Magistrij, Matematika",
+          r: "4,8",
+          s: ["Matematika", "Calculus"],
+        },
+        {
+          n: "Sara Petek",
+          l: "3. letnik, Računalništvo",
+          r: "4,7",
+          s: ["Podatkovne baze"],
+        },
+      ];
+      const ME = () => (S.role == "tutor" ? S.tutor.n : "Ana");
+      const bh = (m) =>
+        m.by == ME()
+          ? `<div class="bub me">${m.t}<div class="sm" style="opacity:.7">${m.h}</div></div>`
+          : `<div class="row" style="align-items:flex-end">${av(m.by)}<div class="bub"><b class="sm">${m.by}</b><div>${m.t}</div><div class="sm mut">${m.h}</div></div></div>`;
+      const cin = (id, f) =>
+        `<div class="cin"><input class="in" id="${id}" style="margin:0" placeholder="${T("Pišite sporočilo…")}" onkeydown="if(event.key=='Enter')${f}()"><button class="ic" style="background:var(--pri);color:#fff;border:0" onclick="${f}()" aria-label="Pošlji">${I("send")}</button></div>`;
+      const hm = () => new Date().toTimeString().slice(0, 5);
+      function Tutors() {
+        return (
+          hd("Tutorji", "groups") +
+          TU.map(
+            (t) =>
+              `<div class="c"><div class="row">${av(t.n)}<div class="fx"><b>${t.n}</b><div class="sm mut">${t.l} · ★ ${t.r}</div></div></div><div class="chips mt" style="flex-wrap:wrap">${t.s.map(tag).join("")}</div><div class="row"><button class="b bs fx" onclick="openDM('${t.n}')">Pošlji sporočilo</button><button class="b b2 bs fx" onclick="newRoom('${t.n}')">Povabi v sobo</button></div></div>`,
+          ).join("")
+        );
+      }
+      function setRm(m) {
+        S.rm = m;
+        go("rooms");
+      }
+      function Rooms() {
+        const i = S.rm == "intl",
+          l = S.rooms.filter((r) => (i ? r.intl : !r.intl));
+        return (
+          hd(
+            i ? "Mednarodne učne sobe" : "Učne sobe",
+            "groups",
+            `<button class="ic" onclick="newRoom()" aria-label="Ustvari sobo">${I("plus")}</button>`,
+          ) +
+          `<div class="seg" style="margin-bottom:12px"><button class="${i ? "on" : ""}" onclick="S.rm='intl';R()">Mednarodne</button><button class="${i ? "" : "on"}" onclick="S.rm='study';R()">Učne sobe</button></div>` +
+          (l.length
+            ? l
+                .map((r) => {
+                  const j = r.m.includes("Ana");
+                  return `<div class="c"><div class="row">${tag(r.s)}<span class="fx"></span><span class="tag">${r.open ? "Odprta" : "Samo povabljeni"}</span></div><b style="display:block;margin:8px 0 2px">${r.n}</b><div class="sm mut">${r.intl ? "Mesta: " : "Lokacija: "}${r.w}</div><div class="row avs mt">${r.m.map(av).join("")}<small style="margin-left:6px" class="mut">${r.m.length} v sobi</small></div>${j ? `<button class="b bs mt" onclick="S.rid=${r.id};go('room')">Odpri sobo</button>` : r.open ? `<button class="b bs mt" onclick="joinR(${r.id})">${T("Pridruži se")}</button>` : `<button class="b b2 bs mt" onclick="toast('Soba je zasebna. Potrebujete povabilo.')">Zahtevaj povabilo</button>`}</div>`;
+                })
+                .join("")
+            : empty("Ni sob", "Ustvarite prvo sobo."))
+        );
+      }
+      const RR = () => S.rooms.find((x) => x.id == S.rid);
+      function Room() {
+        const r = RR();
+        return (
+          hd(r.n, S.role == "tutor" ? "trooms" : "rooms") +
+          `<div class="c">${tag(r.s)}<div class="row avs mt">${r.m.map(av).join("")}</div><div class="row mt"><button class="b b2 bs fx" onclick="inviteR()">Povabi študenta</button><button class="b b2 bs fx" onclick="leaveR()">Zapusti sobo</button></div></div><div style="display:flex;flex-direction:column;gap:10px">${r.msgs.length ? r.msgs.map(bh).join("") : empty("Ni sporočil", "Pozdravite druge v sobi.")}</div>` +
+          cin("rmsg", "sendR")
+        );
+      }
+      function joinR(id) {
+        const r = S.rooms.find((x) => x.id == id);
+        r.m.push("Ana");
+        toast("Pridružili ste se sobi »" + r.n + "«.");
+        R();
+      }
+      function leaveR() {
+        const r = RR();
+        r.m = r.m.filter((x) => x != ME());
+        toast("Zapustili ste sobo.");
+        go(S.role == "tutor" ? "trooms" : "rooms");
+      }
+      function inviteR() {
+        sheet(
+          "Povabi študenta",
+          [
+            {
+              id: "p",
+              l: "Študent",
+              t: "sel",
+              o: ["Žan Kos", "Eva Horvat", "Nik Zupan", "Maja Kralj"],
+            },
+          ],
+          "Povabi",
+          (v) => {
+            toast("Povabilo je poslano: " + v.p + ".");
+          },
+        );
+      }
+      function sendR() {
+        const e = $("#rmsg"),
+          t = e.value.trim();
+        if (!t) return;
+        RR().msgs.push({ by: ME(), t, h: hm() });
+        R();
+        $("#scr").scrollTop = 1e6;
+        $("#rmsg").focus();
+      }
+      function newRoom(tu) {
+        sheet(
+          "Ustvari sobo",
+          [
+            { id: "n", l: "Naziv sobe" },
+            { id: "s", l: "Predmet", t: "sel", o: Object.keys(SC) },
+            {
+              id: "k",
+              l: "Vrsta",
+              t: "sel",
+              o: ["Učna soba", "Mednarodna učna soba"],
+            },
+            {
+              id: "a",
+              l: "Dostop",
+              t: "sel",
+              o: ["Odprta za pridružitev", "Samo povabljeni"],
+            },
+            { id: "w", l: "Lokacija ali mesta" },
+          ],
+          "Ustvari sobo",
+          (v) => {
+            if (!v.n) {
+              toast("Vnesite naziv sobe.");
+              return false;
+            }
+            const i = v.k[0] == "M";
+            S.rooms.push({
+              id: Date.now(),
+              n: v.n,
+              s: v.s,
+              w: v.w || (i ? "Na daljavo" : "Maribor"),
+              open: v.a[0] == "O" ? 1 : 0,
+              intl: i ? 1 : 0,
+              m: tu ? [ME(), tu] : [ME()],
+              msgs: [],
+            });
+            S.rm = i ? "intl" : "study";
+            S.scr = S.role == "tutor" ? "trooms" : "rooms";
+            toast(
+              tu
+                ? "Soba je ustvarjena, " + tu + " je povabljen/a."
+                : "Soba je ustvarjena.",
+            );
+          },
+        );
+      }
+      function DMs() {
+        const k = Object.keys(S.dm);
+        return (
+          hd(
+            "Zasebna sporočila",
+            S.role == "tutor" ? 0 : "groups",
+            `<button class="ic" onclick="newDM()" aria-label="Novo sporočilo">${I("plus")}</button>`,
+          ) +
+          (k.length
+            ? k
+                .map((n) => {
+                  const m = S.dm[n],
+                    l = m[m.length - 1];
+                  return `<div class="c row" style="cursor:pointer" onclick="openDM('${n}')">${av(n)}<div class="fx"><b>${n}</b><div class="sm mut">${l ? l.t : "Brez sporočil"}</div></div><small class="mut">${l ? l.h : ""}</small></div>`;
+                })
+                .join("")
+            : empty("Ni pogovorov", "Pošljite sporočilo tutorju ali sošolcu."))
+        );
+      }
+      function openDM(n) {
+        if (!S.dm[n]) S.dm[n] = [];
+        S.dp = n;
+        go("dmc");
+      }
+      function DMC() {
+        const m = S.dm[S.dp];
+        return (
+          hd(S.dp, "dm") +
+          `<div style="display:flex;flex-direction:column;gap:10px">${m.length ? m.map((x) => bh(x)).join("") : empty("Ni sporočil", "Napišite prvo sporočilo.")}</div>` +
+          cin("dmsg", "sendD")
+        );
+      }
+      function sendD() {
+        const e = $("#dmsg"),
+          t = e.value.trim();
+        if (!t) return;
+        const n = S.dp;
+        S.dm[n].push({ by: ME(), t, h: hm() });
+        R();
+        $("#scr").scrollTop = 1e6;
+        $("#dmsg").focus();
+        setTimeout(() => {
+          S.dm[n].push({ by: n, t: "Seveda, dogovoriva se!", h: hm() });
+          if (S.scr == "dmc" && S.dp == n) {
+            R();
+            $("#scr").scrollTop = 1e6;
+          }
+        }, 1400);
+      }
+      function newDM() {
+        sheet(
+          "Novo sporočilo",
+          [
+            {
+              id: "p",
+              l: "Prejemnik",
+              t: "sel",
+              o: [
+                "Eva Horvat",
+                "Nik Zupan",
+                "Maja Kralj",
+                "Tina Kovač",
+                "Jan Mlakar",
+                "Sara Petek",
+              ],
+            },
+          ],
+          "Odpri pogovor",
+          (v) => {
+            if (!S.dm[v.p]) S.dm[v.p] = [];
+            S.dp = v.p;
+            S.scr = "dmc";
+          },
+        );
+      }
+      S.role = "student";
+      S.tutor = null;
+      S.tph = "";
+      S.dmS = S.dm;
+      S.dmT = {
+        "Ana Novak": [
+          {
+            by: "Ana Novak",
+            t: "Pozdravljeni! Ali imate prosto uro za Podatkovne baze?",
+            h: "08:45",
+          },
+        ],
+        "Žan Kos": [
+          { by: "Žan Kos", t: "Hvala za razlago normalizacije!", h: "včeraj" },
+        ],
+      };
+      const avp = (t, s = 56) =>
+        t.ph
+          ? `<img src='${t.ph}' alt='' style='width:${s}px;height:${s}px;border-radius:50%;object-fit:cover'>`
+          : `<span class='av' style='width:${s}px;height:${s}px;font-size:${s / 2.5}px;background:var(--pri)'>${t.n[0]}</span>`;
+      function Login() {
+        const r = S.auth == "reg",
+          t = S.role == "tutor";
+        return `<div class='login'><div class='logo'>S</div><h1 style='font-size:28px;font-weight:800;margin:16px 0 4px'>StudyBuddy</h1><p class='mut'>Uči se pametneje, skupaj s sošolci.</p>
+<label>Vrsta računa</label><div class='seg'><button class='${t ? "" : "on"}' onclick="S.role='student';R()">Študent</button><button class='${t ? "on" : ""}' onclick="S.role='tutor';R()">Tutor</button></div>
+<div class='seg' style='margin-top:12px'><button class='${r ? "" : "on"}' onclick="S.auth='login';R()">${T("Prijava")}</button><button class='${r ? "on" : ""}' onclick="S.auth='reg';R()">${T("Registracija")}</button></div>
+${r && !t ? `<label>Ime in priimek</label><input class='in' id='rn' value='Ana Novak'><label>Fakulteta</label><input class='in' id='rf' value='FERI, Univerza v Mariboru'><label>Smer</label><input class='in' id='rs' value='Računalništvo'><label>Letnik</label><select class='in' id='rl'><option>1. letnik</option><option selected>2. letnik</option><option>3. letnik</option><option>Magistrij</option></select>` : ""}
+${r && t ? `<label>Ime in priimek</label><input class='in' id='rn' value='Tina Kovač'><label>Profilna fotografija</label><div class='row'><div id='pp'>${avp({ n: "T", ph: S.tph })}</div><input type='file' accept='image/*' onchange='phSel(this)' class='fx sm'></div><label>Predmeti, pri katerih nudite pomoč (ločeno z vejico)</label><input class='in' id='rsu' value='Programiranje 1, Podatkovne baze'><label>Jeziki</label><input class='in' id='rjz' value='Slovenščina, English'><label>Način izvajanja učnih ur</label><select class='in' id='rmd'><option>V živo in na daljavo</option><option>V živo</option><option>Na daljavo</option></select><label>Kratek opis izkušenj</label><textarea class='in' id='rb' rows='3'>Tutorica že 2 leti. Razlagam SQL in osnove programiranja s primeri.</textarea>` : ""}
+<label>E-pošta</label><input class='in' id='em' type='email' placeholder='ana.novak@student.um.si'><label>Geslo</label><input class='in' id='pw' type='password' placeholder='••••••••'><p id='er' class='sm' style='color:var(--cor);min-height:18px;margin-top:6px'></p>
+<button class='b' onclick='doAuth()'>${r ? (t ? "Ustvari račun tutorja" : T("Ustvari račun")) : t ? "Prijava kot tutor" : T("Prijava")}</button></div>`;
+      }
+      function phSel(i) {
+        const f = i.files[0];
+        if (!f) return;
+        const fr = new FileReader();
+        fr.onload = () => {
+          S.tph = fr.result;
+          $("#pp").innerHTML = avp({ n: "T", ph: S.tph });
+        };
+        fr.readAsDataURL(f);
+      }
+      function chPh(i) {
+        const f = i.files[0];
+        if (!f) return;
+        const fr = new FileReader();
+        fr.onload = () => {
+          S.tutor.ph = fr.result;
+          toast("Fotografija je posodobljena.");
+          R();
+        };
+        fr.readAsDataURL(f);
+      }
+      function doAuth() {
+        const e = $("#em").value,
+          p = $("#pw").value;
+        if (!e.includes("@") || p.length < 4) {
+          $("#er").textContent =
+            "Vnesite veljaven e-poštni naslov in geslo (vsaj 4 znake).";
+          return;
+        }
+        const t = S.role == "tutor";
+        if (S.auth == "reg") {
+          if (t) {
+            const sb = $("#rsu")
+              .value.split(",")
+              .map((x) => x.trim())
+              .filter(Boolean);
+            S.tutor = {
+              n: $("#rn").value || "Tutor",
+              ph: S.tph,
+              s: sb,
+              j: $("#rjz").value,
+              md: $("#rmd").value,
+              b: $("#rb").value,
+            };
+            TU.unshift({
+              n: S.tutor.n,
+              l: "Tutor · " + S.tutor.md,
+              r: "novo",
+              s: sb,
+            });
+            toast("Račun tutorja je ustvarjen.");
+          } else {
+            Object.assign(S.user, {
+              name: $("#rn").value || "Študent",
+              fac: $("#rf").value,
+              smer: $("#rs").value,
+              let: $("#rl").value,
+            });
+            toast("Račun je ustvarjen. Dobrodošli v StudyBuddy!");
+          }
+        } else if (t && !S.tutor)
+          S.tutor = {
+            n: "Tina Kovač",
+            ph: "",
+            s: ["Programiranje 1", "Podatkovne baze"],
+            j: "Slovenščina, English",
+            md: "V živo in na daljavo",
+            b: "4. letnik računalništva, tutorica že 2 leti. Razlagam SQL in osnove programiranja s primeri.",
+          };
+        S.dm = t ? S.dmT : S.dmS;
+        if (t) {
+          if (!S.rooms.some((r) => r.m.includes(S.tutor.n)))
+            S.rooms.push({
+              id: Date.now(),
+              n: "Konzultacije: " + (S.tutor.s[0] || "Predmet"),
+              s: S.tutor.s[0] || "Matematika",
+              w: "Na daljavo",
+              open: 1,
+              intl: 0,
+              m: [S.tutor.n, "Ana", "Žan"],
+              msgs: [
+                { by: "Žan", t: "Pozdravljeni, začnemo ob 17:00?", h: "16:40" },
+              ],
+            });
+          go("thome", "thome");
+        } else go("home", "home");
+      }
+      const roomCards = (rs) =>
+        rs.length
+          ? rs
+              .map(
+                (r) =>
+                  `<div class='c'><div class='row'>${tag(r.s)}<span class='fx'></span><span class='tag'>${r.open ? "Odprta" : "Samo povabljeni"}</span></div><b style='display:block;margin:8px 0 2px'>${r.n}</b><div class='row avs mt'>${r.m.map(av).join("")}<small class='mut' style='margin-left:6px'>${r.m.length} v sobi</small></div><button class='b bs mt' onclick="S.rid=${r.id};go('room')">Odpri sobo</button></div>`,
+              )
+              .join("")
+          : empty("Še nimate sob", "Ustvarite prvo učno sobo za študente.");
+      function THome() {
+        const t = S.tutor,
+          rs = S.rooms.filter((r) => r.m.includes(t.n)),
+          nm = Object.keys(S.dm).length,
+          bx =
+            "flex:1;background:rgba(255,255,255,.12);border-radius:16px;padding:12px";
+        return `<div class='hero'><span class='tag' style='background:var(--yel);color:#2a2470'>Tutor</span><h1 style='margin-top:6px'>Živjo, ${t.n.split(" ")[0]}</h1><div class='row' style='margin-top:14px'><div style='${bx}'><b style='font-size:22px'>${rs.length}</b><div class='sm'>učnih sob</div></div><div style='${bx}'><b style='font-size:22px'>${nm}</b><div class='sm'>pogovorov</div></div></div></div>
+<div class='c' style='margin-top:14px'><div class='row'>${avp(t)}<div class='fx'><b style='font-size:16px'>${t.n}</b> <span class='tag' style='background:var(--yel);color:#2a2470'>Tutor</span><div class='sm' style='font-weight:700;color:var(--pri)'>${t.fd || "Področje ni določeno"}</div><div class='sm mut'>${t.md} · ${t.j}</div></div></div><div class='chips mt' style='flex-wrap:wrap'>${t.s.map(tag).join("")}</div><p class='sm mt'>${t.b}</p><div class='row'><button class='b b2 bs fx' onclick='editT()'>Uredi profil</button><label class='b b2 bs fx' style='text-align:center;margin:6px 0 0;color:var(--ink);font-size:12px'>Zamenjaj fotografijo<input type='file' accept='image/*' hidden onchange='chPh(this)'></label></div></div>
+<div class='row'><h2 class='fx'>Moje učne sobe</h2><button class='b bs' onclick='newRoom()'>Ustvari učno sobo</button></div>${roomCards(rs)}
+<button class='b b2' onclick="S.scr='login';S.role='student';R(0)">Odjava</button>`;
+      }
+      function TRooms() {
+        return (
+          hd(
+            "Moje učne sobe",
+            0,
+            `<button class='ic' onclick='newRoom()' aria-label='Ustvari sobo'>${I("plus")}</button>`,
+          ) + roomCards(S.rooms.filter((r) => r.m.includes(S.tutor.n)))
+        );
+      }
+      function editT() {
+        const t = S.tutor;
+        sheet(
+          "Uredi profil",
+          [
+            {
+              id: "fd",
+              l: "Področje študija / strokovno področje",
+              v: t.fd || "",
+            },
+            { id: "s", l: "Predmeti (ločeno z vejico)", v: t.s.join(", ") },
+            { id: "j", l: "Jeziki", v: t.j },
+            {
+              id: "md",
+              l: "Način izvajanja učnih ur",
+              t: "sel",
+              o: ["V živo in na daljavo", "V živo", "Na daljavo"],
+              v: t.md,
+            },
+            { id: "b", l: "Kratek opis izkušenj", t: "area", v: t.b },
+          ],
+          "Shrani",
+          (v) => {
+            Object.assign(t, {
+              fd: v.fd,
+              s: v.s
+                .split(",")
+                .map((x) => x.trim())
+                .filter(Boolean),
+              j: v.j,
+              md: v.md,
+              b: v.b,
+            });
+            toast("Profil je posodobljen.");
+          },
+        );
+      }
+      S.rr = "student";
+      S.f = {};
+      S.pend = null;
+      S.acc = {
+        "ana.novak@student.um.si": {
+          role: "student",
+          pw: "geslo123",
+          user: S.user,
+        },
+        "tina.kovac@student.um.si": {
+          role: "tutor",
+          pw: "geslo123",
+          prof: {
+            n: "Tina Kovač",
+            fd: "Računalništvo in informatika",
+            ph: "",
+            s: ["Programiranje 1", "Podatkovne baze"],
+            j: "Slovenščina, English",
+            md: "V živo in na daljavo",
+            b: "4. letnik računalništva, tutorica že 2 leti. Razlagam SQL in osnove programiranja s primeri.",
+          },
+        },
+      };
+      function keep() {
+        ["rn", "rfd", "rf", "rs", "rl", "em", "pw"].forEach((i) => {
+          const e = $("#" + i);
+          if (e) S.f[i] = e.value;
+        });
+      }
+      function Login() {
+        const r = S.auth == "reg",
+          t = S.rr == "tutor",
+          f = S.f;
+        return `<div class='login'><div class='logo'>S</div><h1 style='font-size:28px;font-weight:800;margin:16px 0 4px'>StudyBuddy</h1><p class='mut'>Uči se pametneje, skupaj s sošolci.</p>
+<div class='seg' style='margin-top:20px'><button class='${r ? "" : "on"}' onclick="keep();S.auth='login';R()">${T("Prijava")}</button><button class='${r ? "on" : ""}' onclick="keep();S.auth='reg';R()">${T("Registracija")}</button></div>
+${r ? `<label>Vrsta računa</label><div class='seg'><button class='${t ? "" : "on"}' onclick="keep();S.rr='student';R()">Študent</button><button class='${t ? "on" : ""}' onclick="keep();S.rr='tutor';R()">Tutor</button></div><label>Ime in priimek</label><input class='in' id='rn' placeholder='Ana Novak' value='${f.rn || ""}'>${t ? `<label>Področje študija / strokovno področje</label><input class='in' id='rfd' placeholder='Npr. Računalništvo in informatika' value='${f.rfd || ""}'>` : `<label>Fakulteta</label><input class='in' id='rf' value='${f.rf || "FERI, Univerza v Mariboru"}'><label>Smer</label><input class='in' id='rs' value='${f.rs || "Računalništvo"}'><label>Letnik</label><select class='in' id='rl'>${["1. letnik", "2. letnik", "3. letnik", "Magistrij"].map((x) => `<option ${x == (f.rl || "2. letnik") ? "selected" : ""}>${x}</option>`).join("")}</select>`}` : ""}
+<label>E-pošta</label><input class='in' id='em' type='email' placeholder='ime.priimek@student.um.si' value='${f.em || ""}'><label>Geslo</label><input class='in' id='pw' type='password' placeholder='••••••••' value='${f.pw || ""}'><p id='er' class='sm' style='color:var(--cor);min-height:18px;margin-top:6px'></p>
+<button class='b' onclick='doAuth()'>${r ? (t ? "Naprej" : T("Ustvari račun")) : T("Prijava")}</button>
+${r ? "" : `<p class='sm mut' style='margin-top:14px'>Demo računa (geslo: geslo123):<br>ana.novak@student.um.si – študent<br>tina.kovac@student.um.si – tutor</p>`}</div>`;
+      }
+      function enter(e) {
+        const a = S.acc[e];
+        S.role = a.role;
+        S.f = {};
+        S.dm = a.role == "tutor" ? S.dmT : S.dmS;
+        if (a.role == "tutor") {
+          S.tutor = a.prof;
+          if (!S.rooms.some((r) => r.m.includes(S.tutor.n)))
+            S.rooms.push({
+              id: Date.now(),
+              n: "Konzultacije: " + (S.tutor.s[0] || "Predmet"),
+              s: S.tutor.s[0] || "Matematika",
+              w: "Na daljavo",
+              open: 1,
+              intl: 0,
+              m: [S.tutor.n, "Ana", "Žan"],
+              msgs: [
+                { by: "Žan", t: "Pozdravljeni, začnemo ob 17:00?", h: "16:40" },
+              ],
+            });
+          go("thome", "thome");
+        } else {
+          S.user = a.user;
+          go("home", "home");
+        }
+      }
+      function doAuth() {
+        const e = $("#em").value.trim().toLowerCase(),
+          p = $("#pw").value,
+          er = (m) => ($("#er").textContent = m);
+        if (!e.includes("@") || p.length < 4) {
+          er("Vnesite veljaven e-poštni naslov in geslo (vsaj 4 znake).");
+          return;
+        }
+        if (S.auth == "login") {
+          const a = S.acc[e];
+          if (!a) {
+            er("Za ta e-poštni naslov računa ni. Ustvarite račun.");
+            return;
+          }
+          if (a.pw != p) {
+            er("Napačno geslo.");
+            return;
+          }
+          enter(e);
+          return;
+        }
+        const n = $("#rn").value.trim();
+        if (!n) {
+          er("Vnesite ime in priimek.");
+          return;
+        }
+        if (S.acc[e]) {
+          er("Račun s tem naslovom že obstaja. Prijavite se.");
+          return;
+        }
+        if (S.rr == "tutor") {
+          S.pend = { e, p, n, fd: ($("#rfd").value || "").trim() };
+          S.tph = "";
+          go("tsetup");
+          return;
+        }
+        S.acc[e] = {
+          role: "student",
+          pw: p,
+          user: {
+            name: n,
+            fac: $("#rf").value,
+            smer: $("#rs").value,
+            let: $("#rl").value,
+            subj: ["Programiranje 1", "Podatkovne baze", "Matematika"],
+          },
+        };
+        toast("Račun je ustvarjen. Dobrodošli v StudyBuddy!");
+        enter(e);
+      }
+      function TSetup() {
+        return (
+          hd("Profil tutorja", "login") +
+          `<div class='sm mut' style='margin:-6px 0 10px'>Korak 2 od 2 · ${S.pend.n}</div><div class='c'><label style='margin-top:0'>Profilna fotografija</label><div class='row'><div id='pp'>${avp({ n: S.pend.n, ph: S.tph })}</div><input type='file' accept='image/*' onchange='phSel(this)' class='fx sm'></div><label>Predmeti, pri katerih nudite pomoč (ločeno z vejico)</label><input class='in' id='rsu' placeholder='Programiranje 1, Podatkovne baze'><label>Jeziki</label><input class='in' id='rjz' value='Slovenščina, English'><label>Način izvajanja učnih ur</label><select class='in' id='rmd'><option>V živo in na daljavo</option><option>V živo</option><option>Na daljavo</option></select><label>Kratek opis izkušenj</label><textarea class='in' id='rb' rows='3' placeholder='Npr. tutor že 2 leti, razlagam SQL in osnove programiranja.'></textarea><p id='er' class='sm' style='color:var(--cor);min-height:18px;margin-top:6px'></p><button class='b' onclick='finishT()'>Ustvari profil</button></div>`
+        );
+      }
+      function finishT() {
+        const sb = $("#rsu")
+          .value.split(",")
+          .map((x) => x.trim())
+          .filter(Boolean);
+        if (!sb.length) {
+          $("#er").textContent = "Dodajte vsaj en predmet.";
+          return;
+        }
+        const d = S.pend,
+          pr = {
+            n: d.n,
+            fd: d.fd,
+            ph: S.tph,
+            s: sb,
+            j: $("#rjz").value,
+            md: $("#rmd").value,
+            b: $("#rb").value || "Tutor na platformi StudyBuddy.",
+          };
+        S.acc[d.e] = { role: "tutor", pw: d.p, prof: pr };
+        TU.unshift({
+          n: pr.n,
+          l: (pr.fd || "Tutor") + " · " + pr.md,
+          r: "novo",
+          s: sb,
+        });
+        S.tph = "";
+        S.pend = null;
+        toast("Profil tutorja je ustvarjen.");
+        enter(d.e);
+      }
+      function setL(l) {
+        S.lang = l;
+        R();
+        toast(
+          l == "en"
+            ? "Language changed to English."
+            : "Jezik je nastavljen na slovenščino.",
+        );
+      }
+      function editP() {
+        const u = S.user;
+        sheet(
+          "Uredi",
+          [
+            { id: "n", l: "Ime in priimek", v: u.name },
+            { id: "f", l: "Fakulteta", v: u.fac },
+            { id: "s", l: "Smer", v: u.smer },
+            {
+              id: "l",
+              l: "Letnik",
+              t: "sel",
+              o: ["1. letnik", "2. letnik", "3. letnik", "Magistrij"],
+              v: u.let,
+            },
+          ],
+          "Shrani",
+          (v) => {
+            Object.assign(u, {
+              name: v.n || u.name,
+              fac: v.f,
+              smer: v.s,
+              let: v.l,
+            });
+            toast("Profil je posodobljen.");
+          },
+        );
+      }
+      function addSubj() {
+        sheet(
+          "Predmeti",
+          [
+            {
+              id: "s",
+              l: "Predmet",
+              t: "sel",
+              o: ["Calculus", "Algoritmi", "Fizika", "Statistika"],
+            },
+          ],
+          "Shrani",
+          (v) => {
+            if (!S.user.subj.includes(v.s)) S.user.subj.push(v.s);
+          },
+        );
+      }
+      function addNote() {
+        sheet(
+          "Osebni zapiski",
+          [{ id: "t", l: "Zapisek", t: "area" }],
+          "Shrani",
+          (v) => {
+            if (!v.t) return false;
+            S.notes.unshift(v.t);
+            toast("Zapisek je shranjen.");
+          },
+        );
+      }
+      R();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  prototype-and-docs:
+    name: Prototype and documentation checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Check required project files
+        run: |
+          test -f README.md
+          test -f prototip/index.html
+          test -f prototip/alternativa.html
+          test -f dokumentacija/nacrt.md
+          test -f dokumentacija/mockupi.md
+          test -f dokumentacija/arhitektura-in-model.md
+          test -f dokumentacija/razvoj-in-odgovornosti.md
+
+      - name: Check prototype HTML structure
+        run: node scripts/check-prototype.mjs

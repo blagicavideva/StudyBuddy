@@ -1,0 +1,35 @@
+name: Razvojna naloga
+description: Načrtuj razvojno delo za StudyBuddy
+title: "[P0/P1/P2] "
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Cilj
+      description: Kaj bo po tej nalogi mogoče narediti?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Merila sprejema
+      placeholder: "- [ ] ..."
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Prioriteta
+      options:
+        - P0 – blokira osnovo
+        - P1 – naslednji obseg
+        - P2 – razširitev
+    validations:
+      required: true
+  - type: input
+    id: owner
+    attributes:
+      label: Predlagani odgovorni
+      placeholder: Ime člana ekipe
+    validations:
+      required: true
