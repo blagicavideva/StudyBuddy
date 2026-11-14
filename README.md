@@ -37,6 +37,7 @@ Načrtovane tehnologije: Expo, React Native in TypeScript za mobilni odjemalec; 
 ├── scripts/check-prototype.mjs
 ├── dokumentacija/
 │   ├── diagram-primerov-uporabe.drawio
+│   ├── diagram-primerov-uporabe.drawio.pdf
 │   ├── nacrt.md
 │   ├── arhitektura-in-model.md
 │   ├── razvoj-in-odgovornosti.md
@@ -49,7 +50,7 @@ Načrtovane tehnologije: Expo, React Native in TypeScript za mobilni odjemalec; 
 ## Dokumentacija
 
 - [Projektni načrt](dokumentacija/nacrt.md)
-- [Diagram primerov uporabe](dokumentacija/diagram-primerov-uporabe.drawio)
+- [Diagram primerov uporabe (PDF)](dokumentacija/diagram-primerov-uporabe.drawio.pdf)
 - [Mockupi in navigacija](dokumentacija/mockupi.md)
 - [Arhitektura in podatkovni model](dokumentacija/arhitektura-in-model.md)
 - [Načrt razvoja in odgovornosti](dokumentacija/razvoj-in-odgovornosti.md)
